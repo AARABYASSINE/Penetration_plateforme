@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.venv/
+venv/
+dist/
+*.egg
+.pytest_cache/
+.mypy_cache/
+
+# Env
+.env
+*.env
+
+# Node
+node_modules/
+dist/
+.vite/
+*.local
+
+# Reports (generated)
+backend/reports/
+*.pdf
+
+# Database
+*.sqlite3
+*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+
+# Logs
+*.log
+logs/
