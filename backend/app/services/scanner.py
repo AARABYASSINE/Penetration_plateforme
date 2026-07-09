@@ -159,14 +159,32 @@ class ScannerService:
         self.db.commit()
 
     # ── Nmap argument builder ─────────────────────────────────────────
-    def _build_scan_args(self, scan_type: str) -> str:
-        base = {
-            "quick": "-sV -sC -T4 --top-ports 100 -O --host-timeout 30s",
-            "standard": "-sV -sC -T3 -p- -O --host-timeout 120s",
-            "deep": "-sV -sC -A -T3 -p- --script=vuln,default,safe -O --host-timeout 300s",
-            "stealth": "-sS -sV -T2 --top-ports 1000 -O --host-timeout 60s",
-        }
-        return base.get(scan_type, base["standard"])
+   def _build_scan_args(self, scan_type: str) -> str:
+    base = {
+        "quick": (
+            "-sV -sC -T4 --top-ports 100 -O --host-timeout 30s "
+            "--script=banner,http-title,ssh-hostkey,smb-os-discovery"
+        ),
+        "standard": (
+            "-sV -sC -T3 --top-ports 1000 -O --host-timeout 120s "
+            "--script=banner,http-title,http-headers,ssh-hostkey,"
+            "smb-os-discovery,ftp-anon,telnet-info,"
+            "mysql-info,rdp-info,snmp-info"
+        ),
+        "deep": (
+            "-sV -sC -A -T3 -p- --host-timeout 300s "
+            "--script=vuln,exploit,auth,default,discovery,safe,"
+            "http-shellshock,http-sql-injection,http-csrf,"
+            "smb-vuln-ms17-010,smb-vuln-ms08-067,"
+            "rdp-vuln-ms12-020,ftp-vsftpd-backdoor,"
+            "ssh-brute,ftp-brute,http-brute"
+        ),
+        "stealth": (
+            "-sS -sV -T2 --top-ports 1000 -O --host-timeout 60s "
+            "--script=banner,http-title,ssh-hostkey"
+        ),
+    }
+    return base.get(scan_type, base["standard"])
 
     # ── Parse Nmap results ────────────────────────────────────────────
     def _parse_nmap_host(self, ip: str, mac: Optional[str]) -> Dict:
