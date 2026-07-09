@@ -40,8 +40,8 @@ class ReportGenerator:
         # Generate HTML
         html_content = self._render_html(scan, devices, vulns, report_title)
         html_path = os.path.join(settings.REPORTS_DIR, f"report_{scan.id}.html")
-        with open(html_path, "w") as f:
-            f.write(html_content)
+        with open(html_path, "w", encoding="utf-8", errors="replace") as f:
+                f.write(html_content)
 
         # Generate JSON
         json_data = {
